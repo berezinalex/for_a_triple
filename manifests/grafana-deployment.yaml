@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: default
+  labels:
+    app: grafana
+    version: "12.3"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        version: "12.3"
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:12.3.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        env:
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafana-secrets
+              key: admin-password
+        - name: GF_SECURITY_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: grafana-secrets
+              key: admin-user
+        - name: GF_INSTALL_PLUGINS
+          value: "grafana-piechart-panel,grafana-clock-panel"
+        # Конфигурация базы данных PostgreSQL
+        - name: GF_DATABASE_TYPE
+          value: "postgres"
+        - name: GF_DATABASE_HOST
+          value: "postgresql-service:5432"
+        - name: GF_DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secrets
+              key: postgres-db
+        - name: GF_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secrets
+              key: postgres-user
+        - name: GF_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-secrets
+              key: postgres-password
+        - name: GF_DATABASE_SSL_MODE
+          value: "disable"  # Для продакшена используйте "require" или "verify-full"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 90  # Увеличили для инициализации БД
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 60  # Увеличили для инициализации БД
+          periodSeconds: 10
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: grafana-storage
+          mountPath: /var/lib/grafana
+      volumes:
+      - name: grafana-storage
+        emptyDir: {}
