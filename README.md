@@ -29,20 +29,6 @@ PostgreSQL
 Пользователь: grafana
 Пароль: GrafanaDB123!
 
-Структура проекта
-text
-
-for_a_triple/
-├── manifests/
-│   ├── grafana-deployment.yaml      # Развертывание Grafana
-│   ├── grafana-service.yaml         # Сервис NodePort для Grafana
-│   ├── grafana-secrets.yaml         # Секреты Grafana
-│   ├── postgresql-deployment.yaml   # Развертывание PostgreSQL
-│   ├── postgresql-service.yaml      # Сервис ClusterIP для PostgreSQL
-│   ├── postgresql-secrets.yaml      # Секреты PostgreSQL
-│   └── postgresql-initdb.sql        # Скрипт инициализации БД
-└── README.md                        # Документация
-
 
 ⚙️ Конфигурация
 Grafana
