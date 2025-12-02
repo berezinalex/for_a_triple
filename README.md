@@ -3,6 +3,24 @@ deploy grafana in local kuber by BerezinAA
 или
 
 Проект для развертывания Grafana версии 12.3 с PostgreSQL в локальном Kubernetes кластере.
+для развёртывания 
+git clone https://github.com/berezinalex/for_a_triple.git
+
+#chmod +x deploy.sh
+и выполняем 
+#deploy.sh
+
+Для удалени
+#chmod +x undeploy.sh
+и выполняем 
+undeploy.sh
+
+
+Для доступа из host 
+нужно пробросить порт используя nat
+порт хоста: 31000
+порт гостя: 31000
+
 
 Архитектура
 

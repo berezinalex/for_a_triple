@@ -6,11 +6,11 @@ set -e
 echo "🔧 Начало развертывания Grafana 12.3 с PostgreSQL..."
 
 # Применяем секреты PostgreSQL
-echo "📝 Применение секретов PostgreSQL..."
+echo "📝 Применение паролей PostgreSQL..."
 kubectl apply -f manifests/postgresql-secrets.yaml
 
 # Применяем секреты Grafana
-echo "📝 Применение секретов Grafana..."
+echo "📝 Применение паролей Grafana..."
 kubectl apply -f manifests/grafana-secrets.yaml
 
 # Развертываем PostgreSQL
