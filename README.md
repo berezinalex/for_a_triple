@@ -8,7 +8,9 @@ deploy grafana in local kuber by BerezinAA
 
 
 Grafana │────▶│ PostgreSQL │
+
 (12.3.0)│       (15-alpine) │
+
 │NodePort:31000 │ ClusterIP:5432
 
 Проект развёртывания веб приложения
