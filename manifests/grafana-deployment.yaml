@@ -59,7 +59,7 @@ spec:
               name: postgresql-secrets
               key: postgres-password
         - name: GF_DATABASE_SSL_MODE
-          value: "disable"  # Для продакшена используйте "require" или "verify-full"
+          value: "disable"  
         resources:
           requests:
             memory: "256Mi"
@@ -71,14 +71,14 @@ spec:
           httpGet:
             path: /api/health
             port: 3000
-          initialDelaySeconds: 90  # Увеличили для инициализации БД
+          initialDelaySeconds: 90  
           periodSeconds: 10
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
             path: /api/health
             port: 3000
-          initialDelaySeconds: 60  # Увеличили для инициализации БД
+          initialDelaySeconds: 60 
           periodSeconds: 10
           timeoutSeconds: 5
         volumeMounts:
